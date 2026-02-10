@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', 'Georgia', serif;
+    background: linear-gradient(135deg,
+        #ffd1dc,
+        #ffb7c5,
+        #ffc3a0,
+        #ffdde1
+    );
+    background-size: 400% 400%;
+    animation: bgMove 12s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+@keyframes bgMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* GLASS CARD */
+.card {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.75);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 380px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    animation: pop 0.8s ease;
+}
+
+h1 {
+    color: #ff4d6d;
+}
+
+p {
+    color: #444;
+    line-height: 1.6;
+}
+
+/* BUTTONS */
+button {
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.yes {
+    background: linear-gradient(135deg,#ff4d6d,#ff758c);
+    color: white;
+}
+
+.no {
+    background: #eee;
+}
+
+/* ENVELOPE */
+.envelope {
+    width: 320px;
+    height: 220px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.envelope::before {
+    content: "💌";
+    font-size: 70px;
+}
+
+/* PHOTOS */
+.photos {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.photos img {
+    width: 600px;
+    height: 700px;
+    object-fit: cover;
+    border-radius: 30%;
+    border: 4px solid #ff4d6d;
+}
+
+/* HEARTS */
+.heart {
+    position: absolute;
+    font-size: 18px;
+    animation: float 6s linear infinite;
+    color: rgba(255,255,255,0.9);
+}
+
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+    <h1>💖 Can you be my Valentine? 💖</h1>
+    <p>I made something special just for you…</p>
+    <button class="yes" onclick="goEnvelope()">Yes 💕</button>
+    <button class="no" onclick="nope()">No 🙈</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="envelope" id="page2" style="display:none;" onclick="openLetter()"></div>
+
+<!-- LETTER PAGE 1 -->
+<div class="card" id="letter1" style="display:none;">
+    <h1>My Crush ❤️</h1>
+
+    <div class="photos">
+        <img src="eh.jpg" alt="Her">
+      
+    </div>
+
+    <p>
+        From the moment I saw you my heart stop,<br>
+        everything became softer, warmer,<br>
+        and more beautiful.
+    </p>
+    <button class="yes" onclick="nextPage(2)">Next 💌</button>
+</div>
+
+<!-- LETTER PAGE 2 -->
+<div class="card" id="letter2" style="display:none;">
+    <p>
+        You are my favorite smile,<br>
+        my calm during chaos,<br>
+        and the person I'll think that suitable in my heart chooses every day.
+    </p>
+    <button class="yes" onclick="nextPage(3)">Next 💖</button>
+</div>
+
+<!-- LETTER PAGE 3 -->
+<div class="card" id="letter3" style="display:none;">
+    <img src="ah.jpg" alt="Us" style="width:100%;border-radius:20px;margin-bottom:15px;">
+    <h1>❤️ I Choose You ❤️</h1>
+    <p>
+        This Valentine’s Day<br>
+        and every day after…<br>
+        it will always be you.
+    </p>
+</div>
+
+<script>
+let noCount = 0;
+
+function goEnvelope() {
+    page1.style.display = "none";
+    page2.style.display = "flex";
+}
+
+function nope() {
+    const msgs = [
+        "Hehe nope 😏 try again",
+        "Wrong button 😅",
+        "Nice try love 💕",
+        "You know the answer already ❤️"
+    ];
+    alert(msgs[noCount % msgs.length]);
+    noCount++;
+}
+
+function openLetter() {
+    page2.style.display = "none";
+    letter1.style.display = "block";
+    setInterval(createHeart, 400);
+}
+
+function nextPage(n) {
+    document.getElementById("letter" + (n-1)).style.display = "none";
+    document.getElementById("letter" + n).style.display = "block";
+}
+
+function createHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.bottom = "-20px";
+    h.style.animationDuration = (Math.random()*3+3) + "s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+}
+
+/* NO BUTTON DODGE 😈 */
+const noBtn = document.querySelector(".no");
+noBtn.addEventListener("mouseover", ()=>{
+    noBtn.style.position = "relative";
+    noBtn.style.left = Math.random()*120 - 60 + "px";
+    noBtn.style.top = Math.random()*120 - 60 + "px";
+});
+</script>
+
+</body>
+</html>
